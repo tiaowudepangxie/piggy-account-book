@@ -4,6 +4,7 @@ import logo from "../logo.svg";
 import { LinkContainer } from "react-router-bootstrap";
 
 function Header() {
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
@@ -14,9 +15,8 @@ function Header() {
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
+          <Nav className="me-auto"></Nav>
+          <Nav>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -28,6 +28,14 @@ function Header() {
                 Separated link
               </NavDropdown.Item>
             </NavDropdown>
+            <>
+              <LinkContainer to="/login">
+                <Nav.Link>Login</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/signup">
+                <Nav.Link>Sign Up</Nav.Link>
+              </LinkContainer>
+            </>
           </Nav>
         </Navbar.Collapse>
       </Container>
