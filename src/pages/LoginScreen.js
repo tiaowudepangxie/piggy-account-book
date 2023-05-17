@@ -1,39 +1,36 @@
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import Loader from "../components/Loader";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
-function SignUpScreen() {
+function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   const handleSubmit = async event => {
     event.preventDefault();
     setLoading(true);
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
 
     try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(res);
+      await signInWithEmailAndPassword(auth, email, password);
+    //   console.log(res);
+      history.push('/');
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false);
-    }
-    
+        setLoading(false);
+      }
   };
 
   return (
     <>
-      <h1 className="fs-4">Sign Up</h1>
+      <h1 className="fs-4">Login</h1>
       {loading && <Loader />}
       {error && <Alert variant="danger">{error}</Alert>}
       <Form onSubmit={handleSubmit}>
@@ -57,15 +54,6 @@ function SignUpScreen() {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
-            type="password"
-            placeholder="Confirm Password"
-          />
-        </Form.Group>
         <Button variant="primary" type="submit">
           Submit
         </Button>
@@ -74,4 +62,4 @@ function SignUpScreen() {
   );
 }
 
-export default SignUpScreen;
+export default LoginScreen;
