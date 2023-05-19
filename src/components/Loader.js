@@ -8,3 +8,5 @@ export default function Loader({ variant="dark", calssName="" }) {
     </Spinner>
   )
 }
+
+

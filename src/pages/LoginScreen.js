@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-import { auth } from "../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import Loader from "../components/Loader";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-
+import { useAuth } from "../contexts/AuthContext";
+import { FcGoogle } from 'react-icons/fc';
 
 function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -13,20 +12,27 @@ function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
+  const { login, currentUser, loginWithGoogle } = useAuth();
+ 
   const handleSubmit = async event => {
     event.preventDefault();
     setLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-    //   console.log(res);
-      history.push('/');
+      await login(email, password);
+      // history.push('/');
     } catch (err) {
       setError(err.message);
     } finally {
         setLoading(false);
       }
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      history.push('/');
+    }
+  }, [currentUser, history])
 
   return (
     <>
@@ -58,6 +64,13 @@ function LoginScreen() {
           Submit
         </Button>
       </Form>
+
+      <hr />
+
+      <Button variant="secondary" onClick={loginWithGoogle}>
+        <FcGoogle/>  Login with Google
+      </Button>
+
     </>
   );
 }

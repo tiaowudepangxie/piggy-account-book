@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Loader from "../components/Loader";
+import { useAuth } from "../contexts/AuthContext";
 
 
 function SignUpScreen() {
@@ -11,6 +13,9 @@ function SignUpScreen() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
+
+  const { signup, currentUser } = useAuth();
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -21,15 +26,20 @@ function SignUpScreen() {
     }
 
     try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(res);
+      await signup(email, password);
+      history.push('/');
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-    
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      history.push('/');
+    }
+  }, [currentUser, history])
 
   return (
     <>
