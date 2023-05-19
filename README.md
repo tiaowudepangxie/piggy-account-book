@@ -1,6 +1,6 @@
 # Introduction:
 
-https://lei-account-book.web.app/
+Open https://lei-account-book.web.app/ to use the app :)
 This is a React web application, using firebase for authentication, firestore as the cloud database.
 This a simply account book web application for managing your personal finances with ease and precision. 
 
