@@ -1,3 +1,11 @@
+# Introduction:
+
+https://lei-account-book.web.app/
+This is a React web application, using firebase for authentication, firestore as the cloud database.
+This a simply account book web application for managing your personal finances with ease and precision. 
+
+--------------------------------------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
